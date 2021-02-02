@@ -1,4 +1,4 @@
-import { TodoDto } from "./todo.dto";
+import { TodoDto } from "./todo/todo.dto";
 
 export interface ListDto {
     id: string;

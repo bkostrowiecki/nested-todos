@@ -1,6 +1,6 @@
 import { createReducer } from "typesafe-actions";
 import { listsActions } from "../../view/lists.actions";
-import { todosActions } from "../../view/todos.actions";
+import { todosActions } from "../../view/todo/todos.actions";
 import { TodoEntity } from "./todo.entity";
 
 export type TodosState = {

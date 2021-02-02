@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import { ListDto } from "./list.dto";
 import { listsActions } from "./lists.actions";
-import { Todo } from "./todo";
+import { Todo } from "./todo/todo";
 
 export const List: React.FC<ListDto> = ({ id, todos }) => {
   const dispatch = useDispatch();
