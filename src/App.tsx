@@ -1,12 +1,9 @@
 import React from "react";
-import "./App.css";
 import { Provider } from "react-redux";
 import { Lists } from "./view/lists";
 import { createAppStore } from "./store";
 
-export type List = {}
-
-function App() {
+export function App() {
   return (
     <Provider store={createAppStore()}>
       <Lists />
@@ -14,4 +11,3 @@ function App() {
   );
 }
 
-export default App;

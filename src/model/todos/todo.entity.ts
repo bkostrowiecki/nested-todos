@@ -1,5 +1,5 @@
 export interface TodoEntity {
-    id: string;
-    title: string;
-    listId: string;
+  id: string;
+  title: string;
+  listId: string;
 }

@@ -1,4 +1,4 @@
 export interface ListEntity {
-    id: string;
-    todoIds: string[]
-};
+  id: string;
+  todoIds: string[];
+}

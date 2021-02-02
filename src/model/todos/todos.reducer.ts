@@ -4,64 +4,92 @@ import { todosActions } from "../../view/todos.actions";
 import { TodoEntity } from "./todo.entity";
 
 export type TodosState = {
-    entities: Record<string, TodoEntity>;
-}
+  entities: Record<string, TodoEntity>;
+};
 
 export const cardsReducer = createReducer({
-    entities: {}
+  entities: {},
 })
-.handleAction(listsActions.addTodoToList, (state: TodosState, action: ReturnType<typeof listsActions.addTodoToList>): TodosState => {
-    return {
+  .handleAction(
+    listsActions.addTodoToList,
+    (
+      state: TodosState,
+      action: ReturnType<typeof listsActions.addTodoToList>
+    ): TodosState => {
+      return {
         entities: {
-            ...state.entities,
-            [action.payload.id]: {
-                ...action.payload
-            }
-        } 
+          ...state.entities,
+          [action.payload.id]: {
+            ...action.payload,
+          },
+        },
+      };
     }
-})
-.handleAction(todosActions.deleteTodo, (state: TodosState, action: ReturnType<typeof todosActions.deleteTodo>): TodosState => {
-    const entities = {
-        ...state.entities
-    };
+  )
+  .handleAction(
+    todosActions.deleteTodo,
+    (
+      state: TodosState,
+      action: ReturnType<typeof todosActions.deleteTodo>
+    ): TodosState => {
+      const entities = {
+        ...state.entities,
+      };
 
-    delete entities[action.payload.id];
+      delete entities[action.payload.id];
 
-    return {
-        entities
-    };
-})
-.handleAction(todosActions.editTodo, (state: TodosState, action: ReturnType<typeof todosActions.editTodo>): TodosState => {
-    const entity = {
-        ...state.entities[action.payload.id]
-    };
-
-    if (!state.entities[action.payload.id]) {
-        throw new Error('The editTodo action required you to give an existing todo id which was not given');
+      return {
+        entities,
+      };
     }
+  )
+  .handleAction(
+    todosActions.editTodo,
+    (
+      state: TodosState,
+      action: ReturnType<typeof todosActions.editTodo>
+    ): TodosState => {
+      const entity = {
+        ...state.entities[action.payload.id],
+      };
 
-    return {
+      if (!state.entities[action.payload.id]) {
+        throw new Error(
+          "The editTodo action required you to give an existing todo id which was not given"
+        );
+      }
+
+      return {
         ...state,
         entities: {
-            ...state.entities,
-            [action.payload.id]: {
-                ...entity,
-                title: action.payload.title
-            }
-        }
-    };
-})
-.handleAction(listsActions.deleteList, (state: TodosState, action: ReturnType<typeof listsActions.deleteList>): TodosState => {
-    const entities = Object.values(state.entities).filter((todo: TodoEntity) => {
-        return todo.listId !== action.payload.id;
-    }).reduce((prev: Record<string, TodoEntity>, curr: TodoEntity) => {
-        prev[curr.id] = curr;
+          ...state.entities,
+          [action.payload.id]: {
+            ...entity,
+            title: action.payload.title,
+          },
+        },
+      };
+    }
+  )
+  .handleAction(
+    listsActions.deleteList,
+    (
+      state: TodosState,
+      action: ReturnType<typeof listsActions.deleteList>
+    ): TodosState => {
+      const entities = Object.values(state.entities)
+        .filter((todo: TodoEntity) => {
+          return todo.listId !== action.payload.id;
+        })
+        .reduce((prev: Record<string, TodoEntity>, curr: TodoEntity) => {
+          prev[curr.id] = curr;
 
-        return prev;
-    }, {});
+          return prev;
+        }, {});
 
-    return {
+      return {
         ...state,
-        entities
-    };
-});
+        entities,
+      };
+    }
+  );
