@@ -1,4 +1,5 @@
 import { createAppStore } from "../store";
+import { listsActions } from "../view/lists.actions";
 import { todosActions } from "../view/todos.actions";
 
 describe("Todos", () => {
@@ -80,6 +81,44 @@ describe("Todos", () => {
       expect(store.getState().lists.entities["456"].todoIds).not.toContain(
         "123"
       );
+    });
+  });
+
+  describe("When deleting list", () => {
+    it("cleans up all todos related to that list", () => {
+      const store = createAppStore({
+        todos: {
+          entities: {
+            "123": {
+              id: "123",
+              title: "Title A",
+              listId: "ABC",
+            },
+            "456": {
+              id: "789",
+              title: "Title B",
+              listId: "DEF",
+            },
+          },
+        },
+        lists: {
+          entities: {
+            ABC: {
+              id: "ABC",
+              todoIds: ["123"],
+            },
+            DEF: {
+              id: "DEF",
+              todoIds: ["789"],
+            },
+          },
+        },
+      });
+
+      const action = listsActions.deleteList("ABC");
+      store.dispatch(action);
+
+      expect(store.getState().todos.entities["123"]).not.toBeDefined();
     });
   });
 });
